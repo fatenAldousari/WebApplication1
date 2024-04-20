@@ -1,14 +1,68 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+<head>
+    <title>Create New Branch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #006400; /* Green color for headings */
+            text-align: center;
+            margin-top: 0;
+            padding-top: 10px;
+        }
+
+        form {
+            width: 50%;
+            margin: 20px auto;
+            background-color: #fff; /* White background for form */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #006400; /* Green button background */
+            color: #fff; /* White button text color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #004d00; /* Darker green on hover */
+            }
+    </style>
+</head>
+<body>
 <h2>Creat New Branch</h2>
 @model NewBranchForm
 @using (Html.BeginForm("Create", "BankBranch", FormMethod.Post))
 {
     <form>
         @Html.EditorForModel()
-        <button class= "btn btn-primary" type="submit"></button>
+        <button class="btn btn-primary" type="submit">Create</button>
     </form>
 }
+</body>

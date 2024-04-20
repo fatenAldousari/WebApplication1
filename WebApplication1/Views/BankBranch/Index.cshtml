@@ -5,38 +5,110 @@
 } 
 @model List<BankBranch>
 
-<h2> KFH Branches</h2>
-<div class="add-button">
-    <a href ="/BankBranch/Create">
-        <button>Add Branch</button>
-        </a>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>id</th>
-            
-            
-            <th>LocationName</th>
-            <th>BranchManager</th>
-            <th>EmployeeCount</th>
-            <th>LocationURL</th>x
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var b in Model)
-        {
-            <tr>
-                <td>
-                    <a href="/BankBranch/Details/@b.Id">@b.Id</a> </td>
-                
-                <td>@b.LocationName</td>
-                <td>@b.BranchManager</td>
-                <td>@b.EmployeeCount</td>
-                <td>
-                    <a href="@b.LocationURL" target="_blank">Map</a>
-                </td>
-            </tr>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KFH Branches</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 20px;
         }
-    </tbody>
-</table>
+        
+        h2 {
+            color: #006400; /* Dark green color for headings */
+        }
+        
+        .add-button {
+            margin-bottom: 20px;
+        }
+        
+        .add-button button {
+            background-color: #006400; /* Dark green color for button */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        
+        .add-button button:hover {
+            background-color: #004d00; /* Darker shade of green on hover */
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #006400; /* Dark green color for table header */
+            color: #fff;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light gray background for even rows */
+        }
+        
+        tbody tr:hover {
+            background-color: #e0e0e0; /* Lighter gray background on hover */
+        }
+        
+        a {
+            text-decoration: none;
+            color: #006400; /* Dark green color for links */
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>KFH Branches</h2>
+    <div class="add-button">
+        <button onclick="confirmAddBranch()">Add Branch</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location Name</th>
+                <th>Branch Manager</th>
+                <th>Employee Count</th>
+                <th>Location URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var b in Model)
+            {
+                <tr>
+                    <td><a href="/BankBranch/Details/@b.Id">@b.Id</a></td>
+                    <td>@b.LocationName</td>
+                    <td>@b.BranchManager</td>
+                    <td>@b.EmployeeCount</td>
+                    <td><a href="@b.LocationURL" target="_blank">Map</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function confirmAddBranch() {
+            if (confirm("Are you sure you want to add a new branch?")) {
+                window.location.href = "/BankBranch/Create";
+            }
+        }
+    </script>
+</body>
+</html>

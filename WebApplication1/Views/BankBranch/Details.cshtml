@@ -1,22 +1,64 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model BankBranch
-<h1>Branch Details</h1>
-<table class="table">
-    <tr>
-        <th>Name</th>
-    <td>@Model.LocationName</td>
-    </tr>
-    
-    <tr>
-        <th>Branch Manager</th>
-        <td>@Model.BranchManager</td>
-    </tr>
-    <tr>
-        <th>Employee Count</th>
-        <td>@Model.EmployeeCount</td>
-    </tr>
-</table>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Branch Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #006400; /* Green text color */
+            margin: 20px;
+        }
+
+        h1 {
+            color: #006400; /* Green color for headings */
+            background-color: #fff; /* White background for headings */
+            padding: 10px;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #006400; /* Green border bottom */
+        }
+
+        th {
+            background-color: #fff; /* White background for header */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Light gray background for even rows */
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Branch Details</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <td>@Model.LocationName</td>
+        </tr>
+        <tr>
+            <th>Branch Manager</th>
+            <td>@Model.BranchManager</td>
+        </tr>
+        <tr>
+            <th>Employee Count</th>
+            <td>@Model.EmployeeCount</td>
+        </tr>
+    </table>
+</body>
+</html>
