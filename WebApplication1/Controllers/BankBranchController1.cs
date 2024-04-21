@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -12,7 +13,11 @@ namespace WebApplication1.Controllers
             ];
         public IActionResult Index()
         {
-            return View(bankBranches);
+            using (var context = new BankContext())
+            {
+                var bankBranches = context.BankBranches.ToList();
+                return View(bankBranches);
+            }
         }
         [HttpGet]
         public IActionResult Create()
@@ -29,23 +34,85 @@ namespace WebApplication1.Controllers
                 var LocationURL = form.LocationURL;
                 var EmployeeCount = form.EmployeeCount;
                 var BranchManager = form.BranchManager;
-                
-                bankBranches.Add(new BankBranch { Id = id, LocationName = LocationName, BranchManager=BranchManager, LocationURL = LocationURL, EmployeeCount = EmployeeCount });
-           return RedirectToAction("Index");
+
+                using (var context = new BankContext())
+                {
+                    var bank = new BankBranch { Id = id, LocationName = LocationName, BranchManager = BranchManager, LocationURL = LocationURL, EmployeeCount = EmployeeCount };
+
+                    context.BankBranches.Add(bank);
+                    context.SaveChanges();
+
+
+                    //bankBranches.Add(new BankBranch { Id = id, LocationName = LocationName, BranchManager=BranchManager, LocationURL = LocationURL, EmployeeCount = EmployeeCount });
+                    return RedirectToAction("Index");
+                }
+
             }
             return View(form);
         }
         public IActionResult Details(string id)
         {
-            var bankBranch = bankBranches.FirstOrDefault(bankBranch => bankBranch.Id == id);
-            
-               if (bankBranch == null)
+            using (var context = new BankContext())
+            {
+                var bank = context.BankBranches.Find(id);
+                if (bank != null)
                 {
+                    context.SaveChanges();
+                }
+                return View(bank);
+            }
+            // var bankBranch = bankBranches.FirstOrDefault(bankBranch => bankBranch.Id == id);
+
+            // if (bankBranch == null)
+            // {
+            //    return RedirectToAction("Index");
+            // }
+
+
+            //  return View(bankBranch);
+        }
+        [HttpPost]
+        public IActionResult Edit(string id, EditBranchForm newBranch) 
+        {
+            using(var context = new BankContext())
+            {
+                var bank = context.BankBranches.Find(id);
+                if (bank != null)
+                {
+                    bank.LocationName = newBranch.LocationName;
+                    bank.BranchManager = newBranch.BranchManager;
+                    bank.LocationURL = newBranch.LocationURL;
+                    bank.EmployeeCount = newBranch.EmployeeCount;
+                    context.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                   
-            
-            return View(bankBranch);
+                return View();
+            }
+
+        }
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            using (var context = new BankContext())
+            {
+                var bank = context.BankBranches.Find(id);
+                if (bank == null)
+                { 
+                  return NotFound();
+                }
+                var form = new EditBranchForm();
+                form.Id = bank.Id;
+                form.LocationName = bank.LocationName;
+                form.BranchManager = bank.BranchManager;
+                form.LocationURL = bank.LocationURL;    
+                form.EmployeeCount = bank.EmployeeCount;
+                return View(form);
+
+
+
+            }
+
         }
     }
 }
+
