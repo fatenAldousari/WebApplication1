@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -7,8 +8,8 @@ namespace WebApplication1.Controllers
     public class BankBranchController : Controller
     {
         static List<BankBranch> bankBranches = [
-            new BankBranch{ Id ="1", LocationName="Kifan",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="faten",EmployeeCount="3"},
-            new BankBranch{ Id ="2", LocationName="zahra",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="noura",EmployeeCount="5"}
+            new BankBranch{ Id =1, LocationName="Kifan",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="faten",EmployeeCount="3"},
+            new BankBranch{ Id =2, LocationName="zahra",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="noura",EmployeeCount="5"}
 
             ];
         public IActionResult Index()
@@ -50,11 +51,11 @@ namespace WebApplication1.Controllers
             }
             return View(form);
         }
-        public IActionResult Details(string id)
+        public IActionResult Details(int id)
         {
             using (var context = new BankContext())
             {
-                var bank = context.BankBranches.Find(id);
+                var bank = context.BankBranches.Include(r => r.Employees).FirstOrDefault(bankBranch => bankBranch.Id == id);
                 if (bank != null)
                 {
                     context.SaveChanges();
@@ -91,7 +92,7 @@ namespace WebApplication1.Controllers
 
         }
         [HttpGet]
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             using (var context = new BankContext())
             {
@@ -112,6 +113,38 @@ namespace WebApplication1.Controllers
 
             }
 
+        }
+
+        [HttpGet]
+        public IActionResult AddEmployee(int Id)
+        {
+            
+                return View();
+
+
+        }
+        [HttpPost]
+        public IActionResult AddEmployee(int Id, AddEmployeeForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                var database = new BankContext();
+                var bank = database.BankBranches.Find(Id);
+                var newemployee = new Employee();
+
+               // newemployee.Id = Id;
+                newemployee.Name = form.Name;
+                newemployee.CivilId = form.CivilId;
+                newemployee.Position = form.Position;
+
+
+                bank.Employees.Add(newemployee);
+           
+                
+                
+                database.SaveChanges();
+            }
+            return View(form);
         }
     }
 }

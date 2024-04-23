@@ -6,13 +6,13 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            color: #006400; 
+            color: #006400;
             margin: 20px;
         }
 
         h1 {
-            color: #006400; 
-            background-color: #fff; 
+            color: #006400;
+            background-color: #fff;
             padding: 10px;
             margin-top: 0;
             text-align: center;
@@ -28,7 +28,7 @@
         th, td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #006400; 
+            border-bottom: 1px solid #006400;
         }
 
         th {
@@ -36,11 +36,15 @@
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2; 
+            background-color: #f2f2f2;
         }
 
         tr:last-child td {
             border-bottom: none;
+        }
+
+        .add-employee-link {
+            text-align: center;
         }
     </style>
 </head>
@@ -59,6 +63,33 @@
             <th>Employee Count</th>
             <td>@Model.EmployeeCount</td>
         </tr>
+    </table>
+
+    <div class="add-employee-link">
+        <a href="/BankBranch/AddEmployee/@Model.Id">Add Employee</a>
+    </div>
+
+    <h2>Employees</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Bank Branch</th>
+                <th>Position</th>
+                <th>Civil ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model.Employees)
+            {
+                <tr>
+                    <td>@e.Name</td>
+                    <td>@e.BankBranch.LocationName</td>
+                    <td>@e.Position</td>
+                    <td>@e.CivilId</td>
+                </tr>
+            }
+        </tbody>
     </table>
 </body>
 </html>
