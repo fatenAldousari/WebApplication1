@@ -7,20 +7,34 @@ namespace WebApplication1.Controllers
 {
     public class BankBranchController : Controller
     {
+        private readonly BankContext _context;
+
+        public BankBranchController(BankContext context)
+        {
+            _context = context;
+        }
         static List<BankBranch> bankBranches = [
             new BankBranch{ Id =1, LocationName="Kifan",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="faten",EmployeeCount="3"},
             new BankBranch{ Id =2, LocationName="zahra",LocationURL="https://www.bing.com/maps?osid=cceedb2d-6b45-4d10-96f8-1a26d85f7fae&cp=29.306768~47.923994&lvl=17&pi=0&v=2&sV=2&form=S00027",BranchManager="noura",EmployeeCount="5"}
 
             ];
+        
         public IActionResult Index()
         {
-            using (var context = new BankContext())
+            var viewModel = new BankDashboardViewModel();
+            using (var context = _context)
             {
-                var bankBranches = context.BankBranches.ToList();
-                return View(bankBranches);
+                viewModel.BranchList = context.BankBranches.ToList();
+                viewModel.TotalEmployees = _context.Employees.Count();
+                return View(viewModel);
             }
+
+
+
         }
-        [HttpGet]
+
+    
+    [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -36,7 +50,7 @@ namespace WebApplication1.Controllers
                 var EmployeeCount = form.EmployeeCount;
                 var BranchManager = form.BranchManager;
 
-                using (var context = new BankContext())
+                using (var context = _context)
                 {
                     var bank = new BankBranch { Id = id, LocationName = LocationName, BranchManager = BranchManager, LocationURL = LocationURL, EmployeeCount = EmployeeCount };
 
@@ -53,7 +67,7 @@ namespace WebApplication1.Controllers
         }
         public IActionResult Details(int id)
         {
-            using (var context = new BankContext())
+            using (var context = _context)
             {
                 var bank = context.BankBranches.Include(r => r.Employees).FirstOrDefault(bankBranch => bankBranch.Id == id);
                 if (bank != null)
@@ -75,7 +89,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Edit(string id, EditBranchForm newBranch) 
         {
-            using(var context = new BankContext())
+            using(var context = _context)
             {
                 var bank = context.BankBranches.Find(id);
                 if (bank != null)
@@ -94,7 +108,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            using (var context = new BankContext())
+            using (var context =  _context)
             {
                 var bank = context.BankBranches.Find(id);
                 if (bank == null)
@@ -128,7 +142,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var database = new BankContext();
+                var database =  _context;
                 var bank = database.BankBranches.Find(Id);
                 var newemployee = new Employee();
 
@@ -139,9 +153,9 @@ namespace WebApplication1.Controllers
 
 
                 bank.Employees.Add(newemployee);
-           
-                
-                
+
+
+
                 database.SaveChanges();
             }
             return View(form);

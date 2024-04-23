@@ -1,9 +1,23 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-} 
-@model List<BankBranch>
+﻿@model BankDashboardViewModel
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Branches</h5>
+                <p class="card-text">@Model.BranchList.Count()</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Employees</h5>
+                <p class="card-text">@Model.TotalEmployees</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
 
 <!DOCTYPE html>
 <html>
@@ -16,62 +30,62 @@
             color: #333;
             margin: 20px;
         }
-        
+
         h2 {
-            color: #006400; 
+            color: #006400;
         }
-        
+
         .add-button {
             margin-bottom: 20px;
         }
-        
-        .add-button button {
-            background-color: #006400; 
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        
-        .add-button button:hover {
-            background-color: #004d00; 
-        }
-        
+
+            .add-button button {
+                background-color: #006400;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+
+                .add-button button:hover {
+                    background-color: #004d00;
+                }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         th, td {
             padding: 10px;
             text-align: left;
         }
-        
+
         th {
             background-color: #006400;
             color: #fff;
         }
-        
+
         tbody tr:nth-child(even) {
-            background-color: #f2f2f2; 
+            background-color: #f2f2f2;
         }
-        
+
         tbody tr:hover {
             background-color: #e0e0e0;
         }
-        
+
         a {
             text-decoration: none;
-            color: #006400; 
+            color: #006400;
         }
-        
-        a:hover {
-            text-decoration: underline;
-        }
+
+            a:hover {
+                text-decoration: underline;
+            }
     </style>
 </head>
 <body>
@@ -90,7 +104,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var b in Model)
+            @foreach (var b in Model.BranchList)
             {
                 <tr>
                     <td><a href="/BankBranch/Details/@b.Id">@b.Id</a></td>
@@ -112,4 +126,5 @@
         }
     </script>
 </body>
+
 </html>
