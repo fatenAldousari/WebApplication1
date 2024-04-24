@@ -1,9 +1,11 @@
 ﻿@model BankDashboardViewModel
+@inject IViewLocalizer Localizer
+<h1>@Localizer["WelcomeMessage"]</h1>
 <div class="row">
     <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Branches</h5>
+                <h5 class="card-title">@Localizer["Total Branches"]</h5>
                 <p class="card-text">@Model.BranchList.Count()</p>
             </div>
         </div>
@@ -11,7 +13,7 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Total Employees</h5>
+                <h5 class="card-title">@Localizer["Total Employees"]</h5>
                 <p class="card-text">@Model.TotalEmployees</p>
             </div>
         </div>
@@ -22,7 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>KFH Branches</title>
+    <title>@Localizer["KFH Branches"]</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -89,18 +91,18 @@
     </style>
 </head>
 <body>
-    <h2>KFH Branches</h2>
+    <h2>@Localizer["KFH Branches"]</h2>
     <div class="add-button">
-        <button onclick="confirmAddBranch()">Add Branch</button>
+        <button onclick="confirmAddBranch()">@Localizer["Add Branch"]</button>
     </div>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Location Name</th>
-                <th>Branch Manager</th>
-                <th>Employee Count</th>
-                <th>Location URL</th>
+                <th>@Localizer["ID"]</th>
+                <th>@Localizer["Location Name"]</th>
+                <th>@Localizer["Branch Manager"]</th>
+                <th>@Localizer["Employee Count"]</th>
+                <th>@Localizer["Location URL"]</th>
             </tr>
         </thead>
         <tbody>

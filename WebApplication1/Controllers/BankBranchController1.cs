@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
             var viewModel = new BankDashboardViewModel();
             using (var context = _context)
             {
-                viewModel.BranchList = context.BankBranches.ToList();
+                viewModel.BranchList = _context.BankBranches.ToList();
                 viewModel.TotalEmployees = _context.Employees.Count();
                 return View(viewModel);
             }
